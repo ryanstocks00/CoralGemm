@@ -43,7 +43,7 @@ void run(int argc, char** argv)
             15, argc-1,
             std::regex(R"(^(?:batched|strided|ex|hostA|hostB|hostC|)"
                        R"(coherentA|coherentB|sharedA|sharedB|)"
-                       R"(zeroBeta|testing|times|hostname|threaded)$)"));
+                       R"(zeroBeta|testing|times|hostname|threaded|zeroA|zeroB)$)"));
     }
 
     bool batched = false;
@@ -61,6 +61,8 @@ void run(int argc, char** argv)
     bool testing = false;
     bool times = false;
     bool hostname = false;
+    bool zero_a = false;
+    bool zero_b = false;
     [[maybe_unused]] bool threaded = false;
 
     int arg = 15;
@@ -82,6 +84,8 @@ void run(int argc, char** argv)
         if (str == "times")     times = true;
         if (str == "hostname")  hostname = true;
         if (str == "threaded")  threaded = true;
+        if (str == "zeroA")     zero_a = true;
+        if (str == "zeroB")     zero_b = true;
         ++arg;
     }
 
@@ -191,7 +195,7 @@ void run(int argc, char** argv)
         if (testing)
             dev_gemms[dev]->generateConstant(1.0);
         else
-            dev_gemms[dev]->generateUniform();
+            dev_gemms[dev]->generateUniform(zero_a, zero_b);
     }
 
     // Print column labels.

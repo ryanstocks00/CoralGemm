@@ -185,7 +185,7 @@ public:
     }
 
     /// Populates the batch with random data.
-    virtual void generateUniform() = 0;
+    virtual void generateUniform(bool zero_a, bool zero_b) = 0;
 
     /// Populates the batch with a specific value.
     virtual void generateConstant(double val) = 0;

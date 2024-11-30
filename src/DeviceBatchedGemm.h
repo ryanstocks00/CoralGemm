@@ -52,10 +52,16 @@ public:
     ~DeviceBatchedGemm();
 
     /// Populates the batch with random data.
-    void generateUniform() override
+    void generateUniform(bool zero_a, bool zero_b) override
     {
-        a_->generateUniform(device_id_, hiprand_generator_);
-        b_->generateUniform(device_id_, hiprand_generator_);
+        if(zero_a)
+          a_->generateConstant(device_id_, 0);
+        else
+          a_->generateUniform(device_id_, hiprand_generator_);
+        if(zero_b)
+          b_->generateConstant(device_id_, 0);
+        else
+          b_->generateUniform(device_id_, hiprand_generator_);
         c_->generateUniform(device_id_, hiprand_generator_);
     }
 
